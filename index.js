@@ -36,7 +36,6 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
-
 const saltRounds = 10;
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -171,13 +170,6 @@ const Detail = mongoose.model("user", userSchema);
 const Details = mongoose.model("category", categorySchema);
 const Detailed = mongoose.model("product",productSchema);
 const authenication = mongoose.model("authenication",authSchema);
-
-Detail.findOne({ name : "KLM"} ).
-populate('result').
-exec(function (err, detail) {
-  if (err) return (err);
-  console.log('The Product is %s', detail.insertResult.name);
-});
 
 app.get("/", (req, res) => {
   res.send("Trying to create a Mini Project using Node.js");
@@ -646,3 +638,4 @@ function verifyToken(req, res, next){
     res.sendStatus(403);
   }
 }
+
