@@ -639,3 +639,20 @@ function verifyToken(req, res, next){
   }
 }
 
+const Cart = require('./models/cartModel');
+
+app.post('/add-to-cart', async(req,res) => {
+  try {
+    const cart_obj = new Cart({
+      product_id : req.body.product_id,
+      price : req.body.price,
+    });
+    const cartData = await cart_obj.save();
+
+    res.status(200).send({ success : true , message : "Cart Product Detail", data : cartData});
+
+    
+  } catch (error) {
+    res.status(400).send({ success : false , message : error.message});
+  }
+});
