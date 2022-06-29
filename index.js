@@ -656,3 +656,29 @@ app.post('/add-to-cart', async(req,res) => {
     res.status(400).send({ success : false , message : error.message});
   }
 });
+
+const Order = require('./models/placeOrder');
+
+app.post('/placeOrder', (req,res) => {
+    const order_obj = new Order({
+      product_id : req.body.product_id,
+      price : req.body.price,
+      customerEmail : req.body.customerEmail,
+      sellerEmail : req.body.sellerEmail
+    });
+    
+    const mailOptions = {
+      from: 'skd08719@outlook.com',
+      to: 'sivakumard3333@gmail.com,uday998588@gmail.com',
+      subject: 'Confirmation Mail Your Order is Placed',
+      html : `<h2>Your order is placed <p>Please click on given link for details of your order</p></h2>
+              <p>${process.env.orderLink}`
+    }
+    transporter.sendMail(mailOptions);
+        res.json({
+        status : "Success",
+        message : "Confirmation mail Sent",
+        });
+
+    const orderData = order_obj.save();
+  });
